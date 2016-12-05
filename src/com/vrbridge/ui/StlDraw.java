@@ -92,6 +92,7 @@ public class StlDraw extends JFrame implements KeyListener {
         this.model = this.model.asIOData().asModel();
         if (sendToPhone) {
 			String host = "192.168.1.64";
+			//String host = "192.168.43.1";
 			ComputerClient cc = new ComputerClient(host, 33233);
 			phoneIntr = cc.makeWrapper(PhoneInterface.class);
 			int[] scrRes = phoneIntr.getScreenResolution();

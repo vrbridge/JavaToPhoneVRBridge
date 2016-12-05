@@ -28,6 +28,25 @@ public class Model3Dim {
     	return new IOData().loadFromModel(this);
     }
     
+    public float[] calcColors() {
+    	float[] ret = new float[coords.length * 4];
+        int count = coords.length / 3;
+        for (int n = 0; n < count; n++) {
+        	Tuple3d norm = normals[n];
+        	double corr = (Tuple3d.scalar(norm, light) - 1) / 2;
+        	float red = (float)(0xFF + corr * 0x80) / 256.0f;
+        	float green = (float)(0xEE + corr * 0x80) / 256.0f;
+        	float blue = (float)(0xDD + corr * 0x80) / 256.0f;
+        	for (int i = 0; i < 3; i++) {
+        		ret[(n * 3 + i) * 4] = red;
+        		ret[(n * 3 + i) * 4 + 1] = green;
+        		ret[(n * 3 + i) * 4 + 2] = blue;
+        		ret[(n * 3 + i) * 4 + 3] = 1.0f;
+        	}
+        }
+        return ret;
+    }
+    
     public void draw(int[] pixels, int w, int h, 
     		double alfa, double beta, double scale) {
     	if (zIndex == null || zIndex.length != w * h) {
